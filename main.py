@@ -6,6 +6,7 @@ from bokeh.resources import CDN
 from bokeh.layouts import gridplot
 from bokeh.palettes import Category10, Category20
 from bokeh.plotting import figure
+from bokeh.plotting.figure import Figure
 from bokeh.transform import cumsum
 
 def color_palette(number_of_elements: int):
@@ -16,11 +17,9 @@ def color_palette(number_of_elements: int):
     else:
         raise ValueError('More than 20 colors are currently not supported')
 
-def pie_chart_by_category(summary: ExpenseSummaryMatrix):
+def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     totals = summary.totals_by_category()
-
-    # The categories sorted from highest to lowest amount of expenses
-    categories = sorted(totals.keys(), key=totals.get, reverse=True)
+    categories = list(totals.keys())
     
     data_source = {
         'category': categories,
@@ -35,10 +34,11 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix):
                x_range=(-1, 1.3))
                  
     p.wedge(x=0, y=0, radius=0.9,
-            start_angle=cumsum('angle', include_zero=True), end_angle=cumsum('angle'),
+            start_angle=cumsum('angle', include_zero=True), 
+            end_angle=cumsum('angle'),
             line_color="white", fill_color='color', 
-            legend_field='category', 
-            source=data_source)
+            legend_field='category', source=data_source)
+            
     p.title.text_font_size = '20pt'
     p.legend.label_text_font_size = '15pt'
     p.axis.axis_label=None
@@ -47,6 +47,8 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix):
     
     return p 
 
+def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
+    pass
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -71,6 +73,14 @@ if __name__ == '__main__':
                     if raw.type != 'transfer')
     summary = ExpenseSummaryMatrix.from_transactions(transactions)
     
+    # Sort the categories from highest to lowest amount of expenses
+    totals = summary.totals_by_category()
+    summary.expenses = {
+        k:v for k, v in sorted(summary.expenses.items(), 
+                               key=lambda item: totals[item[0]],
+                               reverse=True)
+    }
+
     grid = gridplot([pie_chart_by_category(summary)], ncols=2)
     save(grid, title='SettleUpGraphs', filename=arguments.output_file,
          resources=CDN)
