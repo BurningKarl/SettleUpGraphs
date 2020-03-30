@@ -47,6 +47,35 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     
     return p 
 
+def bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
+    totals = summary.totals_by_category()
+    categories = list(totals.keys())
+    
+    data_source = {
+        'category': categories,
+        'value': [totals[category] for category in categories],
+    }
+    data_source['color'] = color_palette(len(categories))
+    
+    p = figure(x_range=categories, title='Expenses by category',
+               toolbar_location=None, tools='hover',
+               tooltips='@category: @value{0,0.00}')
+    
+    p.vbar(x='category', top='value', width=0.9,
+           color='color', source=data_source)
+    
+    p.title.text_font_size = '20pt'
+    #p.legend.label_text_font_size = '15pt'
+    p.y_range.start = 0
+    p.x_range.range_padding = 0.1
+    p.xgrid.grid_line_color = None
+    p.axis.minor_tick_line_color = None
+    p.outline_line_color = None
+    #p.legend.location = "top_left"
+    #p.legend.orientation = "vertical"
+    
+    return p
+
 def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     categories = list(summary.expenses)
     names = sorted(summary.names())
@@ -58,11 +87,11 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     })
     data_source['color'] = color_palette(len(categories))
     
-    p = figure(x_range=names, title='Expenses by person and category', 
+    p = figure(x_range=names, title='Expenses by person and category',
                toolbar_location=None, tools='hover', tooltips='@names')
     
-    p.vbar_stack(categories, x='names', width=0.9, 
-                 color=color_palette(len(categories)), 
+    p.vbar_stack(categories, x='names', width=0.9,
+                 color=color_palette(len(categories)),
                  source=data_source, legend_label=categories)
                  
     p.title.text_font_size = '20pt'
@@ -110,7 +139,8 @@ if __name__ == '__main__':
     }
 
     grid = gridplot([pie_chart_by_category(summary),
-                     stacked_bar_chart_by_name(summary)], ncols=2)
+                     bar_chart_by_name(summary),
+                     stacked_bar_chart_by_name(summary)], ncols=1)
     save(grid, title='SettleUpGraphs', filename=arguments.output_file,
          resources=CDN)
 
