@@ -48,7 +48,35 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     return p 
 
 def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
-    pass
+    categories = list(summary.expenses)
+    names = sorted(summary.names())
+    
+    data_source = {'names': names}
+    data_source.update({
+        category:[summary.expenses[category][name] for name in names]
+        for category in categories
+    })
+    data_source['color'] = color_palette(len(categories))
+    
+    p = figure(x_range=names, title='Expenses by person and category', 
+               toolbar_location=None, tools='hover', tooltips='@names')
+    
+    p.vbar_stack(categories, x='names', width=0.9, 
+                 color=color_palette(len(categories)), 
+                 source=data_source, legend_label=categories)
+                 
+    p.title.text_font_size = '20pt'
+    p.legend.label_text_font_size = '15pt'
+    p.y_range.start = 0
+    p.x_range.range_padding = 0.1
+    p.xgrid.grid_line_color = None
+    p.axis.minor_tick_line_color = None
+    p.outline_line_color = None
+    #p.legend.location = "top_left"
+    p.legend.orientation = "vertical"
+    
+    return p
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
@@ -81,7 +109,8 @@ if __name__ == '__main__':
                                reverse=True)
     }
 
-    grid = gridplot([pie_chart_by_category(summary)], ncols=2)
+    grid = gridplot([pie_chart_by_category(summary),
+                     stacked_bar_chart_by_name(summary)], ncols=2)
     save(grid, title='SettleUpGraphs', filename=arguments.output_file,
          resources=CDN)
 
