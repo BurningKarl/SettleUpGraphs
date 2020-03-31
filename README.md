@@ -14,16 +14,13 @@ If you don't have this feature you can fill in your categories in the correspond
 
 ## FAQ
 
-* How do I restrict the graphs to a subset of all expenses?
-  
+* **How do I restrict the graphs to a subset of all expenses?**  
   Just remove the unecessary expenses from the CSV file but be sure to leave the header (first line) in otherwise the first expense will be ignored.
   
-* How do I exclude some of the names?
-
+* **How do I exclude some of the names?**  
   This feature is not implemented yet, it isn't possible.
   
-* How do I generate other graphs / a subset of these graphs?
-
+* **How do I generate other graphs / a subset of these graphs?**  
   The current graphs are hardcoded inside the `main.py` so you can change them there.
   
 ## Tools
