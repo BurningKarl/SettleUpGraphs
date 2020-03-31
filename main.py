@@ -2,12 +2,15 @@ import math
 import argparse
 from settleup import RawTransaction, Transaction, ExpenseSummaryMatrix
 from bokeh.io import save
-from bokeh.resources import CDN
+from bokeh.resources import CDN, INLINE
 from bokeh.layouts import gridplot
 from bokeh.palettes import Category10, Category20
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
 from bokeh.transform import cumsum
+
+TITLE_FONT_SIZE = '20pt'
+LEGEND_FONT_SIZE = '15pt'
 
 def color_palette(number_of_elements: int):
     if number_of_elements <= 10:
@@ -23,15 +26,15 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     
     data_source = {
         'category': categories,
-        'value': [totals[category] for category in categories],
+        'amount': [totals[category] for category in categories],
         'angle': [totals[category] / sum(totals.values()) * 2*math.pi
                   for category in categories]
     }
     data_source['color'] = color_palette(len(categories))
                                   
     p = figure(title='Expenses by category', toolbar_location=None,
-               tools='hover', tooltips='@category: @value{0,0.00}', 
-               x_range=(-1, 1.3))
+               tools='hover', tooltips='@category: @amount{0,0.00}',
+               x_range=(-1, 1.3), width=600, height=600)
                  
     p.wedge(x=0, y=0, radius=0.9,
             start_angle=cumsum('angle', include_zero=True), 
@@ -39,12 +42,16 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
             line_color="white", fill_color='color', 
             legend_field='category', source=data_source)
             
-    p.title.text_font_size = '20pt'
-    p.legend.label_text_font_size = '15pt'
-    p.axis.axis_label=None
-    p.axis.visible=False
-    p.grid.grid_line_color = None           
+    # Increase the font size
+    p.title.text_font_size = TITLE_FONT_SIZE
+    p.legend.label_text_font_size = LEGEND_FONT_SIZE
     
+    # Make the graph more beautiful
+    p.axis.axis_label=None # Hide the axis labels
+    p.axis.visible=False # Hide the axes
+    p.grid.grid_line_color = None # Hide the grid
+    p.outline_line_color = None # Hide the outline
+
     return p 
 
 def bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
@@ -53,32 +60,33 @@ def bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     
     data_source = {
         'category': categories,
-        'value': [totals[category] for category in categories],
+        'amount': [totals[category] for category in categories],
     }
     data_source['color'] = color_palette(len(categories))
     
-    p = figure(x_range=categories, title='Expenses by category',
-               toolbar_location=None, tools='hover',
-               tooltips='@category: @value{0,0.00}')
+    p = figure(title='Expenses by category', toolbar_location=None, 
+               tools='hover', tooltips='@amount{0,0.00}',
+               x_range=categories, width=600, height=600)
     
-    p.vbar(x='category', top='value', width=0.9,
+    p.vbar(x='category', top='amount', width=0.8,
            color='color', source=data_source)
     
-    p.title.text_font_size = '20pt'
-    #p.legend.label_text_font_size = '15pt'
-    p.y_range.start = 0
-    p.x_range.range_padding = 0.1
-    p.xgrid.grid_line_color = None
-    p.axis.minor_tick_line_color = None
-    p.outline_line_color = None
-    #p.legend.location = "top_left"
-    #p.legend.orientation = "vertical"
+    # Increase the font size
+    p.title.text_font_size = TITLE_FONT_SIZE
+    p.axis.major_label_text_font_size = LEGEND_FONT_SIZE
+    
+    # Make the graph more beautiful
+    p.y_range.start = 0 # Let the bars start at the bottom
+    p.x_range.range_padding = 0.1 # Add horizontal padding
+    p.xgrid.grid_line_color = None # Hide the vertical grid lines
+    p.axis.minor_tick_line_color = None # Hide all minor ticks
+    p.outline_line_color = None # Hide the outline
     
     return p
 
 def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     categories = list(summary.expenses)
-    names = sorted(summary.names())
+    names = sorted(summary.names(), reverse=True)
     
     data_source = {'names': names}
     data_source.update({
@@ -87,22 +95,25 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     })
     data_source['color'] = color_palette(len(categories))
     
-    p = figure(x_range=names, title='Expenses by person and category',
-               toolbar_location=None, tools='hover', tooltips='@names')
+    p = figure(title='Expenses by person and category',
+               toolbar_location=None,
+               tools='hover', tooltips='$name: @$name{0,0.00}',
+               y_range=names, width=1000, height=600)
     
-    p.vbar_stack(categories, x='names', width=0.9,
+    p.hbar_stack(categories, y='names', height=0.8,
                  color=color_palette(len(categories)),
-                 source=data_source, legend_label=categories)
+                 source=data_source)
                  
-    p.title.text_font_size = '20pt'
-    p.legend.label_text_font_size = '15pt'
-    p.y_range.start = 0
-    p.x_range.range_padding = 0.1
-    p.xgrid.grid_line_color = None
-    p.axis.minor_tick_line_color = None
-    p.outline_line_color = None
-    #p.legend.location = "top_left"
-    p.legend.orientation = "vertical"
+    # Increase the font size
+    p.title.text_font_size = TITLE_FONT_SIZE
+    p.axis.major_label_text_font_size = LEGEND_FONT_SIZE
+    
+    # Make the graph more beautiful    
+    p.x_range.start = 0 # Let the bars start at the left
+    p.y_range.range_padding = 0.1 # Add vertical padding
+    p.ygrid.grid_line_color = None # Hide the horizontal grid lines
+    p.axis.minor_tick_line_color = None # Hide all minor ticks
+    p.outline_line_color = None # Hide the outline
     
     return p
 
@@ -138,10 +149,10 @@ if __name__ == '__main__':
                                reverse=True)
     }
 
-    grid = gridplot([pie_chart_by_category(summary),
-                     bar_chart_by_name(summary),
-                     stacked_bar_chart_by_name(summary)], ncols=1)
+    grid = gridplot([[pie_chart_by_category(summary),
+                      bar_chart_by_name(summary),
+                      stacked_bar_chart_by_name(summary)]])
     save(grid, title='SettleUpGraphs', filename=arguments.output_file,
-         resources=CDN)
+         resources=INLINE)
 
     print('Done!')
