@@ -54,7 +54,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
 
     return p 
 
-def bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
+def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     totals = summary.totals_by_category()
     categories = list(totals.keys())
     
@@ -150,7 +150,7 @@ if __name__ == '__main__':
     }
 
     grid = gridplot([[pie_chart_by_category(summary),
-                      bar_chart_by_name(summary),
+                      bar_chart_by_category(summary),
                       stacked_bar_chart_by_name(summary)]])
     save(grid, title='SettleUpGraphs', filename=arguments.output_file,
          resources=INLINE)
