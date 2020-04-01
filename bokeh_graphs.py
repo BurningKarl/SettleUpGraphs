@@ -36,9 +36,9 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
                x_range=(-1, 1.3), width=600, height=600)
                  
     p.wedge(x=0, y=0, radius=0.9,
-            start_angle=cumsum('angle', include_zero=True), 
+            start_angle=cumsum('angle', include_zero=True),
             end_angle=cumsum('angle'),
-            line_color="white", fill_color='color', 
+            line_color="white", fill_color='color',
             legend_field='category', source=data_source)
             
     # Increase the font size
@@ -51,7 +51,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     p.grid.grid_line_color = None # Hide the grid
     p.outline_line_color = None # Hide the outline
 
-    return p 
+    return p
 
 def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     totals = summary.totals_by_category()
@@ -63,7 +63,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     }
     data_source['color'] = color_palette(len(categories))
     
-    p = figure(title='Expenses by category', toolbar_location=None, 
+    p = figure(title='Expenses by category', toolbar_location=None,
                tools='hover', tooltips='@amount{0,0.00}',
                x_range=categories, width=600, height=600)
     
@@ -107,7 +107,7 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     p.title.text_font_size = TITLE_FONT_SIZE
     p.axis.major_label_text_font_size = LEGEND_FONT_SIZE
     
-    # Make the graph more beautiful    
+    # Make the graph more beautiful
     p.x_range.start = 0 # Let the bars start at the left
     p.y_range.range_padding = 0.1 # Add vertical padding
     p.ygrid.grid_line_color = None # Hide the horizontal grid lines
@@ -121,7 +121,7 @@ def output_graphs(filename: str, summary: ExpenseSummaryMatrix) -> None:
     # Sort the categories from highest to lowest amount of expenses
     totals = summary.totals_by_category()
     summary.expenses = {
-        k:v for k, v in sorted(summary.expenses.items(), 
+        k:v for k, v in sorted(summary.expenses.items(),
                                key=lambda item: totals[item[0]],
                                reverse=True)
     }
