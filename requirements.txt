@@ -1,6 +1,9 @@
 bokeh==2.0.1
+cycler==0.10.0
 Jinja2==2.11.1
+kiwisolver==1.2.0
 MarkupSafe==1.1.1
+matplotlib==3.2.1
 numpy==1.18.2
 packaging==20.3
 Pillow==7.0.0
