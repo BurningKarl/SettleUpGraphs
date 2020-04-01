@@ -1,6 +1,13 @@
 # SettleUpGraphs
 Automatically create beautiful graphs of your expenses in SettleUp
 
+## Example graphs
+
+![Pie chart by category](samples/pie_chart_by_category.png)
+![Bar chart by category](samples/bar_chart_by_category.png)
+![Stacked bar chart by category](samples/stacked_bar_chart_by_name.png)
+
+
 ## Usage
 
 1. Clone this repository: `git clone https://github.com/BurningKarl/SettleUpGraphs.git && cd SettleUpGraphs`
@@ -11,6 +18,7 @@ Automatically create beautiful graphs of your expenses in SettleUp
 
 *Note:* This tool makes use of the SettleUp categories, which is a paid feature at the moment. 
 If you don't have this feature you can fill in your categories in the corresponding column in the CSV file and get the same result.
+
 
 ## FAQ
 
