@@ -120,11 +120,10 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
 def output_graphs(filename: str, summary: ExpenseSummaryMatrix) -> None:
     # Sort the categories from highest to lowest amount of expenses
     totals = summary.totals_by_category()
-    summary.expenses = {
-        k:v for k, v in sorted(summary.expenses.items(),
-                               key=lambda item: totals[item[0]],
-                               reverse=True)
-    }
+    summary.expenses = dict(
+        sorted(summary.expenses.items(), key=lambda item: totals[item[0]], 
+               reverse=True)
+    )
 
     grid = gridplot([[pie_chart_by_category(summary),
                       bar_chart_by_category(summary),
