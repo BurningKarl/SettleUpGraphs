@@ -1,4 +1,6 @@
 import math
+import i18n
+import locale
 import argparse
 from settleup import RawTransaction, Transaction, ExpenseSummaryMatrix
 
@@ -33,6 +35,11 @@ if __name__ == '__main__':
                     for raw in raw_transactions
                     if raw.type != 'transfer')
     summary = ExpenseSummaryMatrix.from_transactions(transactions)
+    
+    i18n.load_path.append('translations')
+    preferred_locale = locale.setlocale(locale.LC_MESSAGES, '')
+    i18n.set('locale', preferred_locale[:2])  
+    # 'en' is automatically set as a fallback
     
     if arguments.backend == 'bokeh':
         arguments.output_file = arguments.output_file or 'SettleUpGraphs.html'

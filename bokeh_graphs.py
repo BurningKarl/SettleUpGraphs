@@ -1,4 +1,5 @@
 import math
+import i18n
 from settleup import ExpenseSummaryMatrix
 from bokeh.io import save
 from bokeh.resources import CDN, INLINE
@@ -31,7 +32,8 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     }
     data_source['color'] = color_palette(len(categories))
                                   
-    p = figure(title='Expenses by category', toolbar_location=None,
+    p = figure(title=i18n.t('title.by_category'),
+               toolbar_location=None,
                tools='hover', tooltips='@category: @amount{0,0.00}',
                x_range=(-1, 1.3), width=600, height=600)
                  
@@ -63,7 +65,8 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     }
     data_source['color'] = color_palette(len(categories))
     
-    p = figure(title='Expenses by category', toolbar_location=None,
+    p = figure(title=i18n.t('title.by_category'),
+               toolbar_location=None,
                tools='hover', tooltips='@amount{0,0.00}',
                x_range=categories, width=600, height=600)
     
@@ -94,7 +97,7 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     })
     data_source['color'] = color_palette(len(categories))
     
-    p = figure(title='Expenses by person and category',
+    p = figure(title=i18n.t('title.by_name_by_category'),
                toolbar_location=None,
                tools='hover', tooltips='$name: @$name{0,0.00}',
                y_range=names, width=1000, height=600)

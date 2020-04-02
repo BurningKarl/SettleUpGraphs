@@ -1,9 +1,10 @@
+import i18n
 from settleup import ExpenseSummaryMatrix
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pgf import PdfPages
 from matplotlib.figure import Figure
 from matplotlib.ticker import StrMethodFormatter
-import matplotlib.pyplot as plt
 
 def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
@@ -15,7 +16,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     patches, *_ = ax.pie(amounts)
     #optional arguments: labels=categories, autopct='%1.1f%%',
     
-    ax.set_title('Expenses by category')
+    ax.set_title(i18n.t('title.by_category'))
     ax.legend(patches, categories)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
 
@@ -28,7 +29,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
 
     fig, ax = plt.subplots()
     bars = ax.bar(categories, amounts)
-    ax.set_title('Expenses by category')
+    ax.set_title(i18n.t('title.by_category'))
     ax.yaxis.set_major_formatter(StrMethodFormatter('{x:.0f}€'))
     
     return fig
@@ -46,7 +47,7 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     fig, ax = plt.subplots()
     for i, category in enumerate(categories):
         ax.bar(names, amounts[i+1], bottom=bar_heights[i], label=category)
-    ax.set_title('Expenses by person and category')
+    ax.set_title(i18n.t('title.by_name_by_category'))
     ax.yaxis.set_major_formatter(StrMethodFormatter('{x:.0f}€'))
     ax.legend()
     
