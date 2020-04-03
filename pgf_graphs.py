@@ -19,7 +19,6 @@ def add_value_labels(ax, spacing=5, last=None):
     # For each bar: Place a label
     patches = ax.patches if last is None else ax.patches[-last:]
     for rect in patches:
-        print(rect)
         # Get X and Y placement of label from rect.
         y_value = rect.get_y() + rect.get_height()
         x_value = rect.get_x() + rect.get_width() / 2
