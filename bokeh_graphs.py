@@ -35,7 +35,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     p = figure(title=i18n.t('title.by_category'),
                toolbar_location=None,
                tools='hover', tooltips='@category: @amount{0,0.00}',
-               x_range=(-1, 1.3), width=600, height=600)
+               x_range=(-1.7, 2.2), width=1000, height=600)
                  
     p.wedge(x=0, y=0, radius=0.9,
             start_angle=cumsum('angle', include_zero=True),
@@ -68,7 +68,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     p = figure(title=i18n.t('title.by_category'),
                toolbar_location=None,
                tools='hover', tooltips='@amount{0,0.00}',
-               x_range=categories, width=600, height=600)
+               x_range=categories, width=1000, height=600)
     
     p.vbar(x='category', top='amount', width=0.8,
            color='color', source=data_source)
@@ -128,9 +128,9 @@ def output_graphs(filename: str, summary: ExpenseSummaryMatrix) -> None:
                reverse=True)
     )
 
-    grid = gridplot([[pie_chart_by_category(summary),
-                      bar_chart_by_category(summary),
-                      stacked_bar_chart_by_name(summary)]])
+    grid = gridplot([[pie_chart_by_category(summary)],
+                     [bar_chart_by_category(summary)],
+                     [stacked_bar_chart_by_name(summary)]])
     save(grid, title='SettleUpGraphs', filename=filename,
          resources=INLINE)
 
