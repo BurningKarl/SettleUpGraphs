@@ -38,8 +38,15 @@ if __name__ == '__main__':
     
     i18n.load_path.append('translations')
     preferred_locale = locale.setlocale(locale.LC_MESSAGES, '')
-    i18n.set('locale', preferred_locale[:2])  
+    i18n.set('locale', preferred_locale[:2])
     # 'en' is automatically set as a fallback
+    
+    # Translate the emojis to text
+    summary.expenses = {
+       i18n.t('emoji.'+(category or 'none')):amounts 
+       for category, amounts in summary.expenses.items()
+    }
+
     
     if arguments.backend == 'bokeh':
         arguments.output_file = arguments.output_file or 'SettleUpGraphs.html'
