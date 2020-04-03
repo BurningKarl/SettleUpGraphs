@@ -6,6 +6,38 @@ from matplotlib.backends.backend_pgf import PdfPages
 from matplotlib.figure import Figure
 from matplotlib.ticker import StrMethodFormatter
 
+# Taken from https://stackoverflow.com/questions/28931224/adding-value-labels-on-a-matplotlib-bar-chart
+def add_value_labels(ax, spacing=5, last=None):
+    """Add labels to the end of each bar in a bar chart.
+
+    Arguments:
+        ax (matplotlib.axes.Axes): The matplotlib object containing the axes
+            of the plot to annotate.
+        spacing (int): The distance between the labels and the bars.
+    """
+
+    # For each bar: Place a label
+    patches = ax.patches if last is None else ax.patches[-last:]
+    for rect in patches:
+        print(rect)
+        # Get X and Y placement of label from rect.
+        y_value = rect.get_y() + rect.get_height()
+        x_value = rect.get_x() + rect.get_width() / 2
+
+        # Use Y value as label and format number with one decimal place
+        label = "{:.2f}".format(y_value)
+
+        # Create annotation
+        ax.annotate(
+            label,                      # Use `label` as label
+            (x_value, y_value),         # Place label at end of the bar
+            xytext=(0, spacing),        # Vertically shift label by `spacing`
+            textcoords="offset points", # Interpret `xytext` as offset in points
+            ha='center',                # Horizontally center label
+            va='bottom')                # Vertically align label at the bottom
+
+
+
 def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
     totals = summary.totals_by_category()
@@ -13,8 +45,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     amounts = [totals[category] for category in categories]
 
     fig, ax = plt.subplots()
-    patches, *_ = ax.pie(amounts)
-    #optional arguments: labels=categories, autopct='%1.1f%%',
+    patches, *_ = ax.pie(amounts, autopct='%1.1f%%')
     
     ax.set_title(i18n.t('title.by_category'))
     ax.legend(patches, categories)
@@ -30,6 +61,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     fig, ax = plt.subplots()
     bars = ax.bar(categories, amounts)
     ax.set_title(i18n.t('title.by_category'))
+    add_value_labels(ax)
     
     return fig
 
@@ -47,6 +79,7 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     for i, category in enumerate(categories):
         ax.bar(names, amounts[i+1], bottom=bar_heights[i], label=category)
     ax.set_title(i18n.t('title.by_name_by_category'))
+    add_value_labels(ax, last=len(names))
     ax.legend()
     
     return fig
