@@ -55,6 +55,8 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
 
 
 def output_graphs(filename: str, summary: ExpenseSummaryMatrix) -> None:
+    plt.rcParams["figure.figsize"] = (11.69,8.27) # A4 size
+
     # Sort the categories from highest to lowest amount of expenses
     totals = summary.totals_by_category()
     summary.expenses = dict(
