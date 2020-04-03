@@ -88,7 +88,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
 
 def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     categories = list(summary.expenses)
-    names = sorted(summary.names(), reverse=True)
+    names = sorted(summary.names())
     
     data_source = {'names': names}
     data_source.update({
@@ -100,9 +100,9 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     p = figure(title=i18n.t('title.by_name_by_category'),
                toolbar_location=None,
                tools='hover', tooltips='$name: @$name{0,0.00}',
-               y_range=names, width=1000, height=600)
+               x_range=names, width=1000, height=600)
     
-    p.hbar_stack(categories, y='names', height=0.8,
+    p.vbar_stack(categories, x='names', width=0.8,
                  color=color_palette(len(categories)),
                  source=data_source)
                  
@@ -111,9 +111,9 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     p.axis.major_label_text_font_size = LEGEND_FONT_SIZE
     
     # Make the graph more beautiful
-    p.x_range.start = 0 # Let the bars start at the left
-    p.y_range.range_padding = 0.1 # Add vertical padding
-    p.ygrid.grid_line_color = None # Hide the horizontal grid lines
+    p.y_range.start = 0 # Let the bars start at the bottom
+    p.x_range.range_padding = 0.1 # Add horizontal padding
+    p.xgrid.grid_line_color = None # Hide the vertical grid lines
     p.axis.minor_tick_line_color = None # Hide all minor ticks
     p.outline_line_color = None # Hide the outline
     
