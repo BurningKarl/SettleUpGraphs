@@ -30,7 +30,6 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     fig, ax = plt.subplots()
     bars = ax.bar(categories, amounts)
     ax.set_title(i18n.t('title.by_category'))
-    ax.yaxis.set_major_formatter(StrMethodFormatter('{x:.0f}€'))
     
     return fig
 
@@ -48,7 +47,6 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     for i, category in enumerate(categories):
         ax.bar(names, amounts[i+1], bottom=bar_heights[i], label=category)
     ax.set_title(i18n.t('title.by_name_by_category'))
-    ax.yaxis.set_major_formatter(StrMethodFormatter('{x:.0f}€'))
     ax.legend()
     
     return fig
