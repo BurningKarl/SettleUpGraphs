@@ -95,7 +95,6 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
         category:[summary.expenses[category][name] for name in names]
         for category in categories
     })
-    data_source['color'] = color_palette(len(categories))
     
     p = figure(title=i18n.t('title.by_name_by_category'),
                toolbar_location=None,
