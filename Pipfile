@@ -1,0 +1,12 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+python-i18n = ">=0.3.7"
+numpy = ">=1.18.2"
+matplotlib = ">=3.2.1"
+bokeh = ">=2.0.1"

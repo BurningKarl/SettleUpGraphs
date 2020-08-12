@@ -11,10 +11,10 @@ Create beautiful graphs of your expenses in SettleUp
 ## Usage
 
 1. Clone this repository: `git clone https://github.com/BurningKarl/SettleUpGraphs.git && cd SettleUpGraphs`
-1. Set up your python environment: `virtualenv env && source env/bin/activate && pip install -r requirements.txt`
+1. Set up and activate your python environment: `pipenv install && pipenv shell`
 1. Use email export from SettleUp and put the `transactions.csv` file into the current folder
 1. Run `python main.py`
-1. Open `SettleUpGraphs.html` with your webbrowser and view the generated graphs
+1. Open `SettleUpGraphs.html` with your web browser and view the generated graphs
 
 *Note:* This tool makes use of the SettleUp categories, which is a paid feature at the moment. 
 If you don't have this feature you can fill in your categories in the corresponding column in the CSV file and get the same result.
