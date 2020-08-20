@@ -1,5 +1,6 @@
 # SettleUpGraphs
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Lint Status](https://github.com/BurningKarl/SettleUpGraphs/workflows/Lint/badge.svg)](https://github.com/BurningKarl/SettleUpGraphs/actions?query=workflow%3ALint)
 
 Create beautiful graphs of your expenses in SettleUp
 
