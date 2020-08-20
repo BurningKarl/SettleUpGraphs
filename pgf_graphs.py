@@ -1,10 +1,12 @@
 import i18n
-from settleup import ExpenseSummaryMatrix
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.backends.backend_pgf import PdfPages
 from matplotlib.figure import Figure
 from matplotlib.ticker import StrMethodFormatter
+
+from settleup import ExpenseSummaryMatrix
+
 
 # Taken from https://stackoverflow.com/questions/28931224/adding-value-labels-on-a-matplotlib-bar-chart
 def add_value_labels(ax, spacing=5, last=None):

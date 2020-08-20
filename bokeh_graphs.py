@@ -1,13 +1,15 @@
 import math
+
 import i18n
-from settleup import ExpenseSummaryMatrix
 from bokeh.io import save
-from bokeh.resources import CDN, INLINE
 from bokeh.layouts import gridplot
 from bokeh.palettes import Category10, Category20
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
+from bokeh.resources import CDN, INLINE
 from bokeh.transform import cumsum
+
+from settleup import ExpenseSummaryMatrix
 
 TITLE_FONT_SIZE = "20pt"
 LEGEND_FONT_SIZE = "15pt"

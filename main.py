@@ -1,12 +1,13 @@
-import math
-import i18n
-import locale
 import argparse
-from settleup import RawTransaction, Transaction, ExpenseSummaryMatrix
+import locale
+import math
+
+import i18n
 
 # Backends
 import bokeh_graphs
 import pgf_graphs
+from settleup import ExpenseSummaryMatrix, RawTransaction, Transaction
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

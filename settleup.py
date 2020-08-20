@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 import csv
-from typing import List, Iterable, Set, Mapping
+from collections import defaultdict, namedtuple
 from dataclasses import dataclass
-from collections import namedtuple, defaultdict
-from functools import partial
 from datetime import datetime
+from functools import partial
+from typing import Iterable, List, Mapping, Set
 
 # Columns in the SettleUp export file
 TRANSACTION_COLUMNS = [
