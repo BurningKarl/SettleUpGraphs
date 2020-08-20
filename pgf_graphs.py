@@ -100,7 +100,7 @@ def output_graphs(filename: str, summary: ExpenseSummaryMatrix) -> None:
         sorted(summary.expenses.items(), key=lambda item: totals[item[0]], reverse=True)
     )
 
-    with PdfPages(filename, metadata={"title": "SettleUpGraphs"}) as pdf:
+    with PdfPages(filename, metadata={"Title": "SettleUpGraphs"}) as pdf:
         pdf.savefig(pie_chart_by_category(summary))
         pdf.savefig(bar_chart_by_category(summary))
         pdf.savefig(stacked_bar_chart_by_name(summary))
