@@ -3,7 +3,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_pgf import PdfPages
 from matplotlib.figure import Figure
-from matplotlib.ticker import StrMethodFormatter
 
 from settleup import ExpenseSummaryMatrix
 
@@ -61,7 +60,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     amounts = [totals[category] for category in categories]
 
     fig, ax = plt.subplots()
-    bars = ax.bar(categories, amounts)
+    ax.bar(categories, amounts)
     ax.set_title(i18n.t("title.by_category"))
     add_value_labels(ax)
 
