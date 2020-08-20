@@ -3,9 +3,15 @@ name: Lint
 on: [push, pull_request]
 
 jobs:
-  lint:
+  black:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Black Check
         uses: jpetrucciani/black-check@19.10b0
+  pylint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: GitHub Action for pylint
+        uses: cclauss/GitHub-Action-for-pylint@0.7.0
