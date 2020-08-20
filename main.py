@@ -1,10 +1,8 @@
 import argparse
 import locale
-import math
 
 import i18n
 
-# Backends
 import bokeh_graphs
 import pgf_graphs
 from settleup import ExpenseSummaryMatrix, RawTransaction, Transaction
