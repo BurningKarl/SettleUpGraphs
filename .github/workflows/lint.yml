@@ -3,9 +3,9 @@ name: Lint
 on: [push, pull_request]
 
 jobs:
-  python-style-check:
+  black-and-isort:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2.3.2
-      - name: Python style check
-        uses: bulv1ne/python-style-check@v0.3
+      - name: Python Lint (isort/black)
+        uses: wrboyce/python-lint-action@v1.0.0
