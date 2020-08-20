@@ -6,7 +6,7 @@ from bokeh.layouts import gridplot
 from bokeh.palettes import Category10, Category20
 from bokeh.plotting import figure
 from bokeh.plotting.figure import Figure
-from bokeh.resources import CDN, INLINE
+from bokeh.resources import INLINE
 from bokeh.transform import cumsum
 
 from settleup import ExpenseSummaryMatrix
@@ -18,10 +18,9 @@ LEGEND_FONT_SIZE = "15pt"
 def color_palette(number_of_elements: int):
     if number_of_elements <= 10:
         return Category10[number_of_elements]
-    elif number_of_elements <= 20:
+    if number_of_elements <= 20:
         return Category20[number_of_elements]
-    else:
-        raise ValueError("More than 20 colors are currently not supported")
+    raise ValueError("More than 20 colors are currently not supported")
 
 
 def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
@@ -38,7 +37,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     }
     data_source["color"] = color_palette(len(categories))
 
-    p = figure(
+    chart = figure(
         title=i18n.t("title.by_category"),
         toolbar_location=None,
         tools="hover",
@@ -48,7 +47,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
         height=600,
     )
 
-    p.wedge(
+    chart.wedge(
         x=0,
         y=0,
         radius=0.9,
@@ -61,16 +60,16 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     )
 
     # Increase the font size
-    p.title.text_font_size = TITLE_FONT_SIZE
-    p.legend.label_text_font_size = LEGEND_FONT_SIZE
+    chart.title.text_font_size = TITLE_FONT_SIZE
+    chart.legend.label_text_font_size = LEGEND_FONT_SIZE
 
     # Make the graph more beautiful
-    p.axis.axis_label = None  # Hide the axis labels
-    p.axis.visible = False  # Hide the axes
-    p.grid.grid_line_color = None  # Hide the grid
-    p.outline_line_color = None  # Hide the outline
+    chart.axis.axis_label = None  # Hide the axis labels
+    chart.axis.visible = False  # Hide the axes
+    chart.grid.grid_line_color = None  # Hide the grid
+    chart.outline_line_color = None  # Hide the outline
 
-    return p
+    return chart
 
 
 def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
@@ -83,7 +82,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     }
     data_source["color"] = color_palette(len(categories))
 
-    p = figure(
+    chart = figure(
         title=i18n.t("title.by_category"),
         toolbar_location=None,
         tools="hover",
@@ -93,20 +92,20 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
         height=600,
     )
 
-    p.vbar(x="category", top="amount", width=0.8, color="color", source=data_source)
+    chart.vbar(x="category", top="amount", width=0.8, color="color", source=data_source)
 
     # Increase the font size
-    p.title.text_font_size = TITLE_FONT_SIZE
-    p.axis.major_label_text_font_size = LEGEND_FONT_SIZE
+    chart.title.text_font_size = TITLE_FONT_SIZE
+    chart.axis.major_label_text_font_size = LEGEND_FONT_SIZE
 
     # Make the graph more beautiful
-    p.y_range.start = 0  # Let the bars start at the bottom
-    p.x_range.range_padding = 0.1  # Add horizontal padding
-    p.xgrid.grid_line_color = None  # Hide the vertical grid lines
-    p.axis.minor_tick_line_color = None  # Hide all minor ticks
-    p.outline_line_color = None  # Hide the outline
+    chart.y_range.start = 0  # Let the bars start at the bottom
+    chart.x_range.range_padding = 0.1  # Add horizontal padding
+    chart.xgrid.grid_line_color = None  # Hide the vertical grid lines
+    chart.axis.minor_tick_line_color = None  # Hide all minor ticks
+    chart.outline_line_color = None  # Hide the outline
 
-    return p
+    return chart
 
 
 def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
@@ -121,7 +120,7 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
         }
     )
 
-    p = figure(
+    chart = figure(
         title=i18n.t("title.by_name_by_category"),
         toolbar_location=None,
         tools="hover",
@@ -131,7 +130,7 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
         height=600,
     )
 
-    p.vbar_stack(
+    chart.vbar_stack(
         categories,
         x="names",
         width=0.8,
@@ -140,17 +139,17 @@ def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
     )
 
     # Increase the font size
-    p.title.text_font_size = TITLE_FONT_SIZE
-    p.axis.major_label_text_font_size = LEGEND_FONT_SIZE
+    chart.title.text_font_size = TITLE_FONT_SIZE
+    chart.axis.major_label_text_font_size = LEGEND_FONT_SIZE
 
     # Make the graph more beautiful
-    p.y_range.start = 0  # Let the bars start at the bottom
-    p.x_range.range_padding = 0.1  # Add horizontal padding
-    p.xgrid.grid_line_color = None  # Hide the vertical grid lines
-    p.axis.minor_tick_line_color = None  # Hide all minor ticks
-    p.outline_line_color = None  # Hide the outline
+    chart.y_range.start = 0  # Let the bars start at the bottom
+    chart.x_range.range_padding = 0.1  # Add horizontal padding
+    chart.xgrid.grid_line_color = None  # Hide the vertical grid lines
+    chart.axis.minor_tick_line_color = None  # Hide all minor ticks
+    chart.outline_line_color = None  # Hide the outline
 
-    return p
+    return chart
 
 
 def output_graphs(filename: str, summary: ExpenseSummaryMatrix) -> None:
