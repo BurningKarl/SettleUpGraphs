@@ -37,6 +37,9 @@ def add_value_labels(ax, spacing=5, last=None):
             va="bottom",
         )  # Vertically align label at the bottom
 
+    # Slightly hacky solution
+    ax.set_ylim(top=ax.get_ylim()[1] + spacing * 5)
+
 
 def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
