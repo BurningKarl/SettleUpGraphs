@@ -57,9 +57,20 @@ class Transaction:
     @staticmethod
     def from_raw_transaction(raw: RawTransaction) -> Transaction:
         spent_names = raw.for_whom.split(";")
-        spent_amounts = map(float, raw.split_amounts.split(";"))
+        spent_amounts = [float(amount) for amount in raw.split_amounts.split(";")]
         paid_names = raw.who_paid.split(";")
-        paid_amounts = map(float, raw.amount.split(";"))
+        paid_amounts = [float(amount) for amount in raw.amount.split(";")]
+
+        if len(spent_names) != len(spent_amounts):
+            raise ValueError(
+                f"The number of people spending and the number of amounts "
+                f"do not match up in {raw}"
+            )
+        if len(paid_names) != len(paid_amounts):
+            raise ValueError(
+                f"The number of people paying and the number of amounts "
+                f"do not match up in {raw}"
+            )
 
         if raw.exchange_rate.strip():
             exchange_rate = float(raw.exchange_rate.split(":")[1])
