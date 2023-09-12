@@ -5,7 +5,6 @@ from bokeh.io import save
 from bokeh.layouts import gridplot
 from bokeh.palettes import Category10, Category20
 from bokeh.plotting import figure
-from bokeh.plotting.figure import Figure
 from bokeh.resources import INLINE
 from bokeh.transform import cumsum
 
@@ -23,7 +22,7 @@ def color_palette(number_of_elements: int):
     raise ValueError("More than 20 colors are currently not supported")
 
 
-def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
+def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> figure:
     totals = summary.totals_by_category()
     categories = list(totals.keys())
 
@@ -72,7 +71,7 @@ def pie_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     return chart
 
 
-def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
+def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> figure:
     totals = summary.totals_by_category()
     categories = list(totals.keys())
 
@@ -108,7 +107,7 @@ def bar_chart_by_category(summary: ExpenseSummaryMatrix) -> Figure:
     return chart
 
 
-def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> Figure:
+def stacked_bar_chart_by_name(summary: ExpenseSummaryMatrix) -> figure:
     categories = list(summary.expenses)
     names = sorted(summary.names())
 
