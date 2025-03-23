@@ -23,6 +23,7 @@ TRANSACTION_COLUMNS = [
     "purpose",
     "category",
     "date_time",
+    "timezone",
     "exchange_rate",
     "converted_amount",
     "type",
@@ -37,7 +38,7 @@ class RawTransaction(namedtuple("Transaction", TRANSACTION_COLUMNS)):
 
     @staticmethod
     def from_file(filename: str) -> Iterable[RawTransaction]:
-        with open(filename, "r", encoding="utf8", newline="") as file:
+        with open(filename, "r", encoding="utf16", newline="") as file:
             reader = csv.reader(file)
             next(reader, None)  # skip the header
             for row in reader:
@@ -73,7 +74,7 @@ class Transaction:
             )
 
         if raw.exchange_rate.strip():
-            exchange_rate = float(raw.exchange_rate.split(":")[1])
+            exchange_rate = float(raw.exchange_rate)
             spent_amounts = [amount / exchange_rate for amount in spent_amounts]
             paid_amounts = [amount / exchange_rate for amount in paid_amounts]
 
